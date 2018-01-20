@@ -1,0 +1,44 @@
+h3.best {
+    display: inline;
+}
+a.best {
+    display: inline;
+}
+.footer {
+    display: inline;
+}
+#page-nav {
+    margin-left: 35%;
+}
+
+span.checked {
+    color: orange;    
+}
+
+p.userSelling {
+    display: inline;
+    margin-right: 1em;
+}
+
+div.userSelling {
+    display: inline-block;
+}
+
+.product-images {
+    margin-bottom: 2em;
+}
+
+.product-details {
+    margin-bottom: 2em;
+}
+
+button.contact{
+    border-radius: 9%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+i.social {
+    font-size: 200%;
+    margin-right: 0.3em; 
+}

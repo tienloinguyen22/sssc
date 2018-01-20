@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/customs.css">
+    <title>Homepage: SSSC</title>
+</head>
+
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal">SSSC</h5>
+    </div>
+
+    <div class="container">
+        <form action="/register" method="POST" id="target">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="name">Tel</label>
+                <input type="text" name="phone" class="form-control" id="name" placeholder="Telephone">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div role="alert" id="flash">
+        </div>
+    </div>
+
+    <hr>
+    <footer class="footer fixed-bottom">
+        <div class="container-fluid">
+            <p class="footer">Copyright 2017 - 2018 by SSSC, Inc.</p>
+            <p class="footer float-right">
+                <a href="#">Back to top</a>
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script>
+            $(document).ready(function () {
+                // bind form using ajaxForm
+                $('#target').ajaxForm({
+                    url: 'http://localhost:3000/auth/login',
+                    // dataType identifies the expected content type of the server response
+                    dataType: 'json',
+                    method: 'POST',
+                    // success identifies the function to invoke when the server response
+                    // has been received
+                    success: processSuccess,
+                    error: processError
+                });
+            });
+    
+            function processSuccess(response) {
+                // 'data' is the json object returned from the server
+                console.log(response);
+                $("#flash")
+                    .addClass("alert alert-success text-center")
+                    .text("Đăng ký thành công. Đang điều hướng...")
+                    .fadeOut(3000);
+                setTimeout(function () {
+                    window.location.assign('/login');
+                }, 1000);
+            }
+    
+            function processError(jqXHR) {
+                $("#flash")
+                    .addClass("alert alert-danger text-center")
+                    .text("Tài khoản đã tồn tại. Vui lòng đăng ký lại")
+                    .fadeOut(3000);
+                setTimeout(function () {
+                    location.reload()
+                }, 1000);
+            }
+        </script>
+</body>
+
+</html>
