@@ -20,7 +20,7 @@
     </div>
 
     <div class="container">
-        <form action="/register" method="POST" id="target">
+        <form id="target">
             <div class="form-group">
                 <label for="email">Email address</label>
                 <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
@@ -36,9 +36,9 @@
             </div>
             <div class="form-group">
                 <label for="name">Tel</label>
-                <input type="text" name="phone" class="form-control" id="name" placeholder="Telephone">
+                <input type="text" name="phone" class="form-control" id="phone" placeholder="Telephone">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" id="registerBtn">Submit</button>
         </form>
         <div role="alert" id="flash">
         </div>
@@ -62,44 +62,48 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script>
     <script>
-            $(document).ready(function () {
-                // bind form using ajaxForm
-                $('#target').ajaxForm({
-                    url: 'http://localhost:3000/auth/login',
-                    // dataType identifies the expected content type of the server response
+        $(document).ready(function () {
+            $("#registerBtn").on("click", e => {
+
+                $.ajax({
+                    url: 'http://localhost:8080/register',
                     dataType: 'json',
+                    data: {
+                        "email": document.getElementById("email").value,
+                        "password": document.getElementById("password").value,
+                        "name": document.getElementById("name").value,
+                        "phone": document.getElementById("phone").value
+                    },
                     method: 'POST',
-                    // success identifies the function to invoke when the server response
-                    // has been received
-                    success: processSuccess,
+                    success: res => {
+                        console.log(res)
+                        if (res == 'ok') {
+                            $("#flash")
+                                .addClass("alert alert-success text-center")
+                                .text("Đăng ký thành công. Đang điều hướng...")
+                                .fadeOut(3000);
+                            setTimeout(function () {
+                                window.location.href = 'http://localhost:8080/login'
+                            }, 1000);
+                        }
+                    },
                     error: processError
-                });
-            });
-    
-            function processSuccess(response) {
-                // 'data' is the json object returned from the server
-                console.log(response);
-                $("#flash")
-                    .addClass("alert alert-success text-center")
-                    .text("Đăng ký thành công. Đang điều hướng...")
-                    .fadeOut(3000);
-                setTimeout(function () {
-                    window.location.assign('/login');
-                }, 1000);
-            }
-    
-            function processError(jqXHR) {
+                })
+            })
+        });
+
+        function processError(jqXHR) {
+            jqXHR.responseText != 'ok' &&
                 $("#flash")
                     .addClass("alert alert-danger text-center")
                     .text("Tài khoản đã tồn tại. Vui lòng đăng ký lại")
                     .fadeOut(3000);
-                setTimeout(function () {
-                    location.reload()
-                }, 1000);
-            }
-        </script>
+            setTimeout(function () {
+                location.reload()
+            }, 1000);
+        }
+    </script>
 </body>
 
 </html>

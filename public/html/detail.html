@@ -26,94 +26,8 @@
         <a class="btn btn-outline-primary" href="/register" id="signup">Sign up</a>
     </div>
     <div class="container">
-        <div class="row">
-            <div class="product-images col-lg-3">
-                <img src="https://d32d8xzgnjxuvk.cloudfront.net/hub/1-2/img/hoodie-man-1.png">
-            </div>
-            <div class="product-details col-lg-3">
-                <h4 class="mb-0">Nike Airmax 1</h4>
-                <small class="text-muted">Shoes</small>
-                <p>1,500,000đ</p>
-                <p>Size: 9US</p>
-                <p>Cond: DS</p>
-                <p class="userSelling">By Duc</p>
-                <div class="rating userSelling">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
-                <br>
-                <br>
-                <button class="btn-primary contact">Contact</button>
-            </div>
-            <div class="product-images col-lg-3">
-                <img src="https://d32d8xzgnjxuvk.cloudfront.net/hub/1-2/img/hoodie-man-1.png">
-            </div>
-            <div class="product-details col-lg-3">
-                <h4 class="mb-0">Nike Airmax 1</h4>
-                <small class="text-muted">Shoes</small>
-                <p>1,500,000đ</p>
-                <p>Size: 9US</p>
-                <p>Cond: DS</p>
-                <p class="userSelling">By Duc</p>
-                <div class="rating userSelling">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
-                <br>
-                <br>
-                <button class="btn-primary contact">Contact</button>
-            </div>
-            <div class="product-images col-lg-3">
-                <img src="https://d32d8xzgnjxuvk.cloudfront.net/hub/1-2/img/hoodie-man-1.png">
-            </div>
-            <div class="product-details col-lg-3">
-                <h4 class="mb-0">Nike Airmax 1</h4>
-                <small class="text-muted">Shoes</small>
-                <p>1,500,000đ</p>
-                <p>Size: 9US</p>
-                <p>Cond: DS</p>
-                <p class="userSelling">By Duc</p>
-                <div class="rating userSelling">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
-                <br>
-                <br>
-                <button class="btn-primary contact">Contact</button>
-            </div>
-            <div class="product-images col-lg-3">
-                <img src="https://d32d8xzgnjxuvk.cloudfront.net/hub/1-2/img/hoodie-man-1.png">
-            </div>
-            <div class="product-details col-lg-3">
-                <h4 class="mb-0">Nike Airmax 1</h4>
-                <small class="text-muted">Shoes</small>
-                <p>1,500,000đ</p>
-                <p>Size: 9US</p>
-                <p>Cond: DS</p>
-                <p class="userSelling">By
-                    <a href="/profile">Duc
-                        <a>
-                </p>
-                <div class="rating userSelling">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
-                <br>
-                <br>
-                <button class="btn-primary contact">Contact</button>
-            </div>
+        <div class="row" id="product">
+
         </div>
     </div>
     </div>
@@ -131,13 +45,54 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="../js/documentReady.js"></script>
+    <script>
+        $(document).ready(() => {
+            const index = window.location.href.split("/").length - 1;
+            $.ajax({
+                url: "http://localhost:8080/shopping/get-product",
+                type: "POST",
+                data: {
+                    "productLineID": window.location.href.split("/")[index]
+                },
+                success: response => {
+                    const res = JSON.parse(response);
+                    const htmlResult = "";
+                    for (let i of res) {
+                        const star = Math.round(res[i].sellerRating);
+                        htmlResult += `<div class="product-images col-lg-3">
+                                        <img src="${res[i].img}">
+                                    </div>
+                                    <div class="product-details col-lg-3">
+                                        <h4 class="mb-0">${res[i].productLine}</h4>
+                                        <p>${res[i].price}đ</p>
+                                        <p>Size: ${res[i].size}US</p>
+                                        <p>Cond: ${res[i].conds == 10 ? "DS" : res[i].conds}</p>
+                                        <p class="userSelling">By ${res[i].sellerName}</p>
+                                        <div class="rating userSelling">`;
+                        for (let i = 0; i < star; i++) {
+                            htmlResult += `<span class="fa fa-star checked"></span>`
+                        }
+                        for (let i = 0; i < 5 - star; i++) {
+                            htmlResult += `<span class="fa fa-star"></span>`
+                        }
+                        htmlResult += `</div>
+                                        <br>
+                                        <br>
+                                        <button class="btn-primary contact"><a href="/user/${res[i].seller}"Contact</button>
+                                        </div>`
+                    }
+                    console.log(htmlResult);
+                }
+            })
+        }
+        )
+    </script>
 </body>
 
 </html>

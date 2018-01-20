@@ -4,10 +4,10 @@ let usersCollection = require('../app').users;
 let router = express.Router();
 
 
-router.use((req, res, next) => {
-  console.log(req.method.toUpperCase() + ' Request to /login');
-  next();
-});
+// router.use((req, res, next) => {
+//   console.log(req.method.toUpperCase() + ' Request to /login');
+//   next();
+// });
 
 router.get('/', (req, res) => {
   res.sendFile('C:/Users/tienl/Desktop/sssc/public/html/login.html');

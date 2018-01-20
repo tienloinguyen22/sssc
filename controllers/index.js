@@ -11,13 +11,11 @@ router.use('/login', require('./login'));
 
 router.use('/register', require('./register'));
 
-router.use('/edit-profile', (req, res) => {
-  res.sendFile('C:/Users/tienl/Desktop/sssc/public/html/edit-profile.html');
-});
+router.use('/group', require('./group'));
 
-router.use('/shop', (req, res) => {
-  res.sendFile('C:/Users/tienl/Desktop/sssc/public/html/shopping.html');
-});
+router.use('/edit-profile', require('./editProfile'));
+
+router.use('/shopping', require('./shopping'));
 
 router.use('/sell', (req, res) => {
   res.sendFile('C:/Users/tienl/Desktop/sssc/public/html/sell.html');
